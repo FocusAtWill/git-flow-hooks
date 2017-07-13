@@ -11,6 +11,11 @@ if [ -z "$VERSION_BUMP_MESSAGE" ]; then
     VERSION_BUMP_MESSAGE="Bump version to %version%"
 fi
 
+if [ -f "package.json" ]; then
+    yarn version --no-git-tag-version --new-version "$VERSION"
+    git add package.json
+fi
+
 echo -n "$VERSION" > $VERSION_FILE && \
     git add $VERSION_FILE && \
     git commit -m "$(echo "$VERSION_BUMP_MESSAGE" | sed s/%version%/$VERSION/g)"
