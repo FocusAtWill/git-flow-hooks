@@ -11,7 +11,11 @@ if [ -z "$VERSION_BUMP_MESSAGE" ]; then
     VERSION_BUMP_MESSAGE="Bump version to %version%"
 fi
 
-if [ -f "package.json" ]; then
+if [ -f "lerna.json" ]; then
+    yarn lerna publish --repo-version "$VERSION" --skip-npm --skip-git --yes
+    git add lerna.json
+    git add \*\*/package.json
+elif [ -f "package.json" ]; then
     yarn version --no-git-tag-version --new-version "$VERSION"
     git add package.json
 fi
