@@ -12,7 +12,9 @@ if [ -z "$VERSION_BUMP_MESSAGE" ]; then
 fi
 
 if [ -f "lerna.json" ]; then
-    yarn lerna publish --repo-version "$VERSION" --skip-npm --skip-git --yes
+    # lerna prevent You have a `VERSION` file in your repository, this is leftover from a previous version. Please run `lerna init` to update
+    rm $VERSION_FILE
+    yarn lerna publish --repo-version "$VERSION" --skip-npm --skip-git --yes --force-publish
     git add lerna.json
     git add \*\*/package.json
 elif [ -f "package.json" ]; then
